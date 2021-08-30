@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+
+    <link type="text/css" rel="stylesheet" href="css/pages/home.css" />
+    <link type="text/css" rel="stylesheet" href="css/site.css" />
+    <link href="css/color-picker.min.css" rel="stylesheet">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <nav class="white z-depth-0">
+        <div class="nav-wrapper z-depth-0">
+            <a href="/" class="brand-logo black-text" style="padding-left: 3%;">kevincodes.ca</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons black-text">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="black-text" href="/experience">experience</a></li>
+                <li><a class="black-text" href="/projects">personal projects</a></li>
+                <li><a class="black-text" href="/film">35mm</a></li>
+                <li><a class="black-text" href="/music">.mp3</a></li>
+                <li><a class="black-text" href="/espirit">espirit des corps</a></li>
+                <li class="valign-wrapper">
+                    <div class="center-align">
+                        <input type="text" id="colorPicker" class="browser-default" style="width:50%;border:3px solid;border-radius:10px"></input>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <ul class="sidenav" id="mobile-demo">
+        <li><a class="black-text" href="/experience">experience</a></li>
+        <li><a class="black-text" href="/projects">personal projects</a></li>
+        <li><a class="black-text" href="/film">35mm</a></li>
+        <li><a class="black-text" href="/music">.mp3</a></li>
+        <li><a class="black-text" href="/espirit">espirit des corps</a></li>
+    </ul>
+    <div class="container">
+        <!-- Page Content goes here -->
+        @RenderBody()
+    </div>
+
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="js/color-picker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.modal').modal();
+            $('.sidenav').sidenav();
+            
+
+            function openModal() {
+                $('.modal').modal();
+            }            
+        });
+
+    </script>
+    <script>
+
+        var picker = new CP(document.getElementById('colorPicker'));
+
+        function on_start() {
+            //console.log('start');
+        }
+
+        function on_drag(v, instance) {
+            instance.target.value = '#' + v;
+            //document.body.style.backgroundColor = '#' + v;
+            //console.log('drag');
+            var themeColor = $("#colorPicker").val();
+            $(".nav-wrapper").css("background-color", themeColor);
+            $(".brand-logo").css("background-color", themeColor);
+            $("body").css("background-color", themeColor);
+            $(".card-content").css("background-color", themeColor);
+        }
+
+        function on_stop() {
+            //console.log('stop');
+            
+        }
+
+        function on_enter() {
+            //console.log('enter');
+        }
+
+        function on_exit() {
+            console.log('exit', $("#colorPicker").val() ,"/SetColor?color=" + $("#colorPicker").val());
+            $.get("/SetColor?color=" + $("#colorPicker").val().substring(1))
+        }
+
+        function on_fit() {
+            //console.log('fit');
+        }
+
+        function on_create(v, instance) {
+            console.log('create');
+            let ca = document.cookie.split(';');
+            let color = "fffff"
+            if(ca[0].includes("bkcolor")){
+                color = ca[0].replace('bkcolor=','')
+            }
+            on_drag(color, instance); // trigger drag event on initiation ...
+        }
+
+        picker.on("start", on_start);
+        picker.on("drag", on_drag);
+        picker.on("stop", on_stop);
+        picker.on("enter", on_enter);
+        picker.on("exit", on_exit);
+        picker.on("fit", on_fit);
+        picker.on("create", on_create);
+
+    </script>
+
+
+
+</body>
+
+</html>

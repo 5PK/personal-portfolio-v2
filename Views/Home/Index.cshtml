@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row center" style="padding: 5%;">
+            <img class="profile" src="media/images/home/avatar3.png" alt="Avatar" height="250" width="250">
+        </div>
+        <div class="row center" style="padding-bottom: 3%;">
+            <p id="typeEle" class="flow-text"></p>
+        </div>
+        <div class="row center">
+            <div id="menu" class="center">
+                <ul>
+                  <li><a class="grey-text" href="https://www.linkedin.com/in/ktran95/">LinkedIn</a></li>
+                  <li><a class="grey-text" style="padding:0 10% 0 10%" href="https://github.com/5PK">Github</a></li>
+                  <li><a class="grey-text modal-trigger" href="mailto:1trankev@gmail.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row center">
+            <div class="carousel" style="width: 100%;">
+                <div class="carousel-item black-text" style="width: 100%;">
+                    <h6><i>"I like rock climbing, music and readable code." ~ Kevin Tran, 2019</i></h6>
+                </div>
+                <div class="carousel-item black-text" style="width: 100%;">
+                    <h6><i>"Sometimes all it takes to solve problems is just sense." ~ Gary Paulsen, Hatchet</i></h6>
+                </div>
+                <div class="carousel-item black-text" style="width: 100%;">
+                    <h6><i>"The line dividing good and evil cuts through the heart of every human being." ~ Aleksandr Solzhenitsyn, The Gulag Archipelago</i></h6>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+        $(document).ready(function () {
+            $('.carousel').carousel({
+                numVisible: 1
+            });
+
+            var i = 0;
+            var txt = "Hi there! I'm Kevin Tran, a software dev from Hamilton, Ontario.";
+            var speed = 50;
+
+            typeWriter();
+            autoplay();
+
+            function typeWriter(id) {
+                if (i < txt.length) {
+                    document.getElementById("typeEle").innerHTML += txt.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+
+            function autoplay() {
+                $('.carousel').carousel('next');
+                setTimeout(autoplay, 5000);
+            }
+
+            function openModal() {
+                $('.modal').modal();
+            }
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+    </script>

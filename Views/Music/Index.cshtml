@@ -1,0 +1,143 @@
+﻿    <link type="text/css" rel="stylesheet" href="css/pages/mp3.css" />
+    <div class="container" style="height:100vh">
+        <!-- Page Content goes here -->
+        <div class="row center" style="padding-left: 5%; padding-right: 5%; padding-top: 8%; padding-bottom: 5%; height:100%">
+
+                    <h4 style="padding-bottom: 3%;">.MP3</h4>
+
+            <h6 style="padding-bottom: 5%;" id="typeEle"></h6>
+            <div id="seek-obj" class="progress black" style="width: 80%; margin:auto; cursor: pointer;height:3px"> 
+                <div id="progress-bar" class="determinate grey lighten-4" style="width: 0%;"></div>
+            </div>
+            
+            <div class="row center" style="padding-top:1%;margin:auto; height: 100%; width: 80%;">
+                <div class="col s4"><p style="margin:0;float:left">"<span>5am 145</span>"</p></div>
+                <div class="col s4"><div id="play-btn" style="margin:auto;cursor: pointer;"></div></div>
+                <div class="col s4"><p style="margin:0;float:right" class="start-time">00:00</p></div>
+
+  
+            </div>
+            <div class="audio-wrapper" id="player-container" href="javascript:;">
+                <audio id="player" ontimeupdate="initProgressBar()">
+                    <source src="media/music/USERAUDIO005.WAV" type="audio/mp3">
+                </audio>
+            </div>
+
+        </div>
+
+
+
+
+
+        <!--JavaScript at end of body for optimized loading-->
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script>
+
+            var i = 0;
+            var txt = "My music. I play the piano, but I also like guitar and the harmonica.";
+            var speed = 50;
+
+            typeWriter();
+
+            function typeWriter(id) {
+                if (i < txt.length) {
+                    document.getElementById("typeEle").innerHTML += txt.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+
+        </script>
+        <script>
+            function initProgressBar() {
+                var player = document.getElementById('player');
+                var length = player.duration
+                var current_time = player.currentTime;
+
+                // calculate total length of value
+                var totalLength = calculateTotalValue(length)
+                //document.getElementById("end-time").innerHTML = totalLength;
+
+                // calculate current value time
+                var currentTime = calculateCurrentValue(current_time);
+                jQuery(".start-time").html(currentTime);
+
+                var progressbar = document.getElementById('progress-bar');
+                var seekObj = document.getElementById('seek-obj');
+                progressbar.style.width = ((player.currentTime / player.duration) * 100) + "%";
+                seekObj.addEventListener("click", seek);
+
+                if (player.currentTime == player.duration) {
+                    document.getElementById('play-btn').className = "";
+                }
+
+                function seek(event) {
+                    var percent = event.offsetX / this.offsetWidth;
+                    console.log(percent)
+                    player.currentTime = percent * player.duration;
+                    progressbar.style.width = percent + "%";
+                }
+            };
+
+            function initPlayers(num) {
+                // pass num in if there are multiple audio players e.g 'player' + i
+
+                for (var i = 0; i < num; i++) {
+                    (function () {
+
+                        // Variables
+                        // ----------------------------------------------------------
+                        // audio embed object
+                        var playerContainer = document.getElementById('player-container'),
+                            player = document.getElementById('player'),
+                            isPlaying = false,
+                            playBtn = document.getElementById('play-btn');
+
+                        // Controls Listeners
+                        // ----------------------------------------------------------
+                        if (playBtn != null) {
+                            playBtn.addEventListener('click', function () {
+                                togglePlay()
+                            });
+                        }
+
+                        // Controls & Sounds Methods
+                        // ----------------------------------------------------------
+                        function togglePlay() {
+                            if (player.paused === false) {
+                                player.pause();
+                                isPlaying = false;
+                                document.getElementById('play-btn').className = "";
+
+                            } else {
+                                player.play();
+                                document.getElementById('play-btn').className = "pause";
+                                isPlaying = true;
+                            }
+                        }
+                    }());
+                }
+            }
+
+            function calculateTotalValue(length) {
+                var minutes = Math.floor(length / 60),
+                    seconds_int = length - minutes * 60,
+                    seconds_str = seconds_int.toString(),
+                    seconds = seconds_str.substr(0, 2),
+                    time = minutes + ':' + seconds
+
+                return time;
+            }
+
+            function calculateCurrentValue(currentTime) {
+                var current_hour = parseInt(currentTime / 3600) % 24,
+                    current_minute = parseInt(currentTime / 60) % 60,
+                    current_seconds_long = currentTime % 60,
+                    current_seconds = current_seconds_long.toFixed(),
+                    current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
+
+                return current_time;
+            }
+
+            initPlayers(jQuery('#player-container').length);
+        </script>

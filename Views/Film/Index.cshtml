@@ -1,0 +1,128 @@
+﻿    <link type="text/css" rel="stylesheet" href="css/pages/35mm.css" />
+    <div class="container">
+
+        <div class="row center" style="padding-left: 5%; padding-right: 5%; padding-top: 8%; padding-bottom: 5%;">
+            
+
+
+                    <h4 style="padding-bottom: 3%;">35mm</h4>
+
+
+            <h6 style="padding-bottom: 5%;" id="typeEle"></h6>
+            <div id="seek-obj" class="progress black" style="width: 80%; margin:auto; height: 3px;">
+                <div id="progress-bar" class="determinate black" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="imgRow">
+            <div class="imgColumn">
+                <img id="img1" class="materialboxed" style="width:100%">
+                <img id="img2" class="materialboxed" style="width:100%">
+                <img id="img3" class="materialboxed" style="width:100%">
+                <img id="img4" class="materialboxed" style="width:100%">
+                <img id="img5" class="materialboxed" style="width:100%">
+                <img id="img6" class="materialboxed" style="width:100%">
+                <img id="img31" class="materialboxed" style="width:100%">
+                <img id="img32" class="materialboxed" style="width:100%">
+                <img id="img33" class="materialboxed"style="width:100%">
+            </div>
+            <div class="imgColumn">
+                <img id="img7" class="materialboxed" style="width:100%">
+                <img id="img8" class="materialboxed" style="width:100%">
+                <img id="img9" class="materialboxed"style="width:100%">
+                <img id="img10" class="materialboxed" style="width:100%">
+                <img id="img11" class="materialboxed"style="width:100%">
+                <img id="img12" class="materialboxed"style="width:100%">
+                <img id="img34" class="materialboxed" style="width:100%">
+                <img id="img35" class="materialboxed"style="width:100%">
+                <img id="img36" class="materialboxed"style="width:100%">
+            </div>
+            <div class="imgColumn">
+                <img id="img13" class="materialboxed" style="width:100%">
+                <img id="img14" class="materialboxed" style="width:100%">
+                <img id="img15" class="materialboxed"  style="width:100%">
+                <img id="img16" class="materialboxed"  style="width:100%">
+                <img id="img17" class="materialboxed"style="width:100%">
+                <img id="img18" class="materialboxed"  style="width:100%">
+                <img id="img25" class="materialboxed" style="width:100%">
+                <img id="img26" class="materialboxed" style="width:100%">
+                <img id="img27" class="materialboxed"style="width:100%">
+
+            </div>
+            <div class="imgColumn">
+                <img id="img19" class="materialboxed" style="width:100%">
+                <img id="img20" class="materialboxed" style="width:100%">
+                <img id="img21" class="materialboxed"style="width:100%">
+                <img id="img22" class="materialboxed" style="width:100%">
+                <img id="img23" class="materialboxed"style="width:100%">
+                <img id="img24" class="materialboxed"style="width:100%">
+                <img id="img28" class="materialboxed" style="width:100%">
+                <img id="img29" class="materialboxed"style="width:100%">
+                <img id="img30" class="materialboxed"style="width:100%">
+            </div>
+        </div>
+
+
+        <!--JavaScript at end of body for optimized loading-->
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.sidenav').sidenav();
+                $('.materialboxed').materialbox();
+                var i = 0;
+                var txt = "Assorted film photos taken on an old Olympus camera.";
+                var speed = 50;
+
+                typeWriter();
+                loadImages();
+
+                function typeWriter() {
+                    if (i < txt.length) {
+                        document.getElementById("typeEle").innerHTML += txt.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, speed);
+                    }
+                }
+
+                function loadImages() {
+                    var imgCount = 46;
+                    var albumLimit = 36;
+
+                    var imgArr = createImgArr(imgCount);
+
+                    console.log(imgArr)
+
+                    for(var i = 1; i < albumLimit + 1; i ++){
+
+                        var imgContainer = document.getElementById("img" + i);
+
+                        console.log("media/images/35mm/" + imgArr[i] + ".JPG");
+
+                        imgContainer.src = "media/images/35mm/" + imgArr[i] + ".JPG";
+
+                    }
+                }
+
+                function createImgArr(len){
+                    var arr = [];
+
+                    for(var i = 1; i < len + 1; i ++){
+                        console.log(i)
+                        arr.push(i);
+                    }
+
+                    return shuffle(arr);
+                }
+
+                function shuffle(a) {
+                    for (let i = a.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [a[i], a[j]] = [a[j], a[i]];
+                    }
+                    return a;
+                }
+
+            });
+        </script>
